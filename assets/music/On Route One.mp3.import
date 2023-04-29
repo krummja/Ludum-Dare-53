@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bnot74xeml20g"
+path="res://.godot/imported/On Route One.mp3-7a3729bd876b39b6e3dd59bce060e41f.mp3str"
+
+[deps]
+
+source_file="res://assets/music/On Route One.mp3"
+dest_files=["res://.godot/imported/On Route One.mp3-7a3729bd876b39b6e3dd59bce060e41f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

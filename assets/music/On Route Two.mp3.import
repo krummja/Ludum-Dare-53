@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://8a0nmw1tixnv"
+path="res://.godot/imported/On Route Two.mp3-9ca77c491526fe9362c183cd934d6257.mp3str"
+
+[deps]
+
+source_file="res://assets/music/On Route Two.mp3"
+dest_files=["res://.godot/imported/On Route Two.mp3-9ca77c491526fe9362c183cd934d6257.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

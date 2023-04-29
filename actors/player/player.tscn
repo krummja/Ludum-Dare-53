@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://eu7fxkwqhawd"]
+
+[ext_resource type="Texture2D" uid="uid://c87pnw2mqc64v" path="res://assets/textures/kenney_platformer-pack-redux/Spritesheets/spritesheet_players.png" id="1_h01cx"]
+[ext_resource type="Script" path="res://actors/player/Player.cs" id="1_qnn2g"]
+[ext_resource type="AudioStream" uid="uid://babj2d03mfbne" path="res://assets/sounds/jump.wav" id="3_v0dtl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7xib7"]
+size = Vector2(58, 56)
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(0, -39)
+script = ExtResource("1_qnn2g")
+Speed = Vector2(300, 600)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 39)
+scale = Vector2(0.527273, 0.527273)
+texture = ExtResource("1_h01cx")
+offset = Vector2(0, -73.9655)
+region_enabled = true
+region_rect = Rect2(392.916, 620, 110.651, 150)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 11)
+shape = SubResource("RectangleShape2D_7xib7")
+
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(0.75, 0.75)
+process_callback = 0
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_v0dtl")

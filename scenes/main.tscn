@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://cd6vmg1ob75uv"]
+
+[ext_resource type="Script" path="res://scenes/game/World.cs" id="2_hf4ce"]
+[ext_resource type="PackedScene" uid="uid://b4vght3n53nod" path="res://scenes/game/world.tscn" id="3_moho4"]
+[ext_resource type="PackedScene" uid="uid://eu7fxkwqhawd" path="res://actors/player/player.tscn" id="3_stdx6"]
+[ext_resource type="AudioStream" uid="uid://8a0nmw1tixnv" path="res://assets/music/On Route Two.mp3" id="4_8012r"]
+
+[node name="Game" type="Node"]
+
+[node name="World" parent="." instance=ExtResource("3_moho4")]
+script = ExtResource("2_hf4ce")
+
+[node name="Player" parent="World" instance=ExtResource("3_stdx6")]
+position = Vector2(377, 537)
+
+[node name="Main" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="TextureRect" parent="Main"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="BGMusic" type="AudioStreamPlayer" parent="Main"]
+stream = ExtResource("4_8012r")
+volume_db = -4.044
+autoplay = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Main"]
+
+[node name="ScreenFader" type="AnimationPlayer" parent="Main"]
