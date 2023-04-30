@@ -1,52 +1,24 @@
 using Godot;
 using System;
 
-public partial class Main : Control
+public partial class Main : Node
 {
-	private TextureRect title;
-	private AudioStreamPlayer bgMusic;
-	private CanvasModulate canvasModulate;
-	private AnimationPlayer screenFader;
+	[Export]
+	public Menu Menu;
 
-	private int width;
-	private int height;
-	private bool initialized = false;
-
-	public override void _Ready()
-	{
-		title = GetNode<TextureRect>("Title");
-		bgMusic = GetNode<AudioStreamPlayer>("BGMusic");
-		canvasModulate = GetNode<CanvasModulate>("CanvasModulate");
-		screenFader = GetNode<AnimationPlayer>("ScreenFader");
-
-		width = (int) ProjectSettings.GetSetting("display/window/size/viewport_width");
-		height = (int) ProjectSettings.GetSetting("display/window/size/viewport_height");
-
-		title.Texture = ResourceLoader.Load<Texture2D>("res://assets/textures/menu/title.svg");
-		title.AnchorLeft = 0.5f;
-		title.AnchorRight = 0.5f;
-		title.AnchorTop = 0.5f;
-		title.AnchorBottom = 0.5f;
-
-		Vector2 textureSize = title.Texture.GetSize();
-		title.OffsetLeft = -textureSize.X / 2;
-		title.OffsetRight = textureSize.X / 2;
-		title.OffsetTop = -textureSize.Y / 2;
-		title.OffsetBottom = textureSize.Y / 2;
-
-		initialized = true;
-	}
-
-	public override void _Process(double delta)
-	{
-
-	}
-
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_accept")) {
-			GD.Print(width);
-			GD.Print(height);
+		if (@event.IsActionPressed("toggle_pause")) {
+			SceneTree tree = GetTree();
+			tree.Paused = !tree.Paused;
+
+			if (tree.Paused) {
+				Menu.Open();
+			} else {
+				Menu.Close();
+			}
+
+			tree.Root.SetInputAsHandled();
 		}
     }
 }

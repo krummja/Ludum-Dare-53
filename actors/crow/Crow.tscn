@@ -1,0 +1,89 @@
+[gd_scene load_steps=9 format=3 uid="uid://164w01ljcobp"]
+
+[ext_resource type="Script" path="res://actors/crow/Aggro.cs" id="1_24ctn"]
+[ext_resource type="Texture2D" uid="uid://0a05ksn30g11" path="res://assets/textures/Bird/Crow.svg" id="1_cfuxl"]
+[ext_resource type="Script" path="res://actors/crow/Crow.cs" id="1_vkkn4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lyjr7"]
+radius = 299.541
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hfkvs"]
+radius = 37.6563
+
+[sub_resource type="Animation" id="Animation_g84qi"]
+resource_name = "crow_fly"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 5, 4, 3, 4, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -6), Vector2(0, -3), Vector2(0, 1), Vector2(0, 1), Vector2(0, 0), Vector2(0, -6)]
+}
+
+[sub_resource type="Animation" id="Animation_ghfw7"]
+resource_name = "crow_idle"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2f36w"]
+_data = {
+"crow_fly": SubResource("Animation_g84qi"),
+"crow_idle": SubResource("Animation_ghfw7")
+}
+
+[node name="CrowSpawn" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_24ctn")
+
+[node name="AggroCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lyjr7")
+
+[node name="Crow" type="Area2D" parent="."]
+position = Vector2(0, -6)
+script = ExtResource("1_vkkn4")
+
+[node name="Sprite" type="Sprite2D" parent="Crow"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_cfuxl")
+hframes = 3
+vframes = 3
+frame = 6
+region_rect = Rect2(268.996, 1322.96, 111.078, 86.1812)
+
+[node name="DamageCollider" type="CollisionShape2D" parent="Crow"]
+shape = SubResource("CircleShape2D_hfkvs")
+
+[node name="Animation" type="AnimationPlayer" parent="Crow"]
+libraries = {
+"": SubResource("AnimationLibrary_2f36w")
+}
