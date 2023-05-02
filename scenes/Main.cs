@@ -23,8 +23,8 @@ public partial class Main : Node
 
 	public bool IsGameOver = false;
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
+	public override void _UnhandledInput(InputEvent @event)
+	{
 		if (@event.IsActionPressed("toggle_pause") && GameState != GameState.Start) {
 			SceneTree tree = GetTree();
 			tree.Paused = !tree.Paused;
@@ -37,7 +37,7 @@ public partial class Main : Node
 
 			tree.Root.SetInputAsHandled();
 		}
-    }
+	}
 
 	public void GameOver()
 	{
