@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxe7swjupd35j"]
+
+[ext_resource type="Script" path="res://scenes/game/HUD.cs" id="1_jltlf"]
+[ext_resource type="Texture2D" uid="uid://c6w25ybu0k4s" path="res://assets/textures/Heart_Full.svg" id="1_tj1b6"]
+[ext_resource type="Script" path="res://scenes/game/Healthbar.cs" id="1_xkpbw"]
+[ext_resource type="Script" path="res://scenes/game/ScrollPieces.cs" id="4_dw4kx"]
+[ext_resource type="Texture2D" uid="uid://dwaphhsj22538" path="res://assets/textures/Scroll/Scroll_Piece.png" id="4_uiir5"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_jltlf")
+
+[node name="Health" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 138.0
+offset_bottom = 50.0
+script = ExtResource("1_xkpbw")
+
+[node name="H1" type="TextureRect" parent="Health"]
+layout_mode = 2
+texture = ExtResource("1_tj1b6")
+expand_mode = 2
+
+[node name="H2" type="TextureRect" parent="Health"]
+layout_mode = 2
+texture = ExtResource("1_tj1b6")
+expand_mode = 2
+
+[node name="H3" type="TextureRect" parent="Health"]
+layout_mode = 2
+texture = ExtResource("1_tj1b6")
+expand_mode = 2
+
+[node name="Scrolls" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1011.0
+offset_top = 10.0
+offset_right = 1139.0
+offset_bottom = 50.0
+script = ExtResource("4_dw4kx")
+
+[node name="S1" type="TextureRect" parent="Scrolls"]
+layout_mode = 2
+texture = ExtResource("4_uiir5")
+expand_mode = 2
+
+[node name="S2" type="TextureRect" parent="Scrolls"]
+layout_mode = 2
+texture = ExtResource("4_uiir5")
+expand_mode = 2
+
+[node name="S3" type="TextureRect" parent="Scrolls"]
+layout_mode = 2
+texture = ExtResource("4_uiir5")
+expand_mode = 2

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8ag016ivlu4x"]
+
+[ext_resource type="PackedScene" uid="uid://erk454qc2i00" path="res://scenes/TextOverlay.tscn" id="1_5olng"]
+
+[node name="StoryStart" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextOverlay" parent="." instance=ExtResource("1_5olng")]
+layout_mode = 1

@@ -1,0 +1,107 @@
+[gd_scene load_steps=11 format=3 uid="uid://dg4mbv2w8syet"]
+
+[ext_resource type="Texture2D" uid="uid://cg8sfh8igv672" path="res://assets/textures/Logo.svg" id="1_hgy8n"]
+[ext_resource type="Script" path="res://scenes/Start.cs" id="1_mosop"]
+[ext_resource type="Texture2D" uid="uid://cgiu40dqlwqr7" path="res://assets/textures/Background/Background Sky.png" id="1_s56vm"]
+[ext_resource type="Texture2D" uid="uid://dgr5k1r50xdse" path="res://assets/textures/Crier/Crier.svg" id="2_4vwp8"]
+[ext_resource type="Texture2D" uid="uid://bi7iy0e2usd06" path="res://assets/textures/Background/Background Cloud.svg" id="2_7bu2l"]
+[ext_resource type="Texture2D" uid="uid://dcj4l6umbi61v" path="res://assets/textures/Background/Background Mnt Far.svg" id="2_kkyd6"]
+[ext_resource type="Texture2D" uid="uid://bgmhuw5tadrel" path="res://assets/textures/START.png" id="3_5871y"]
+[ext_resource type="Texture2D" uid="uid://c4caxw0ed3k34" path="res://assets/textures/Background/Background Mnt Close.svg" id="3_mbepw"]
+[ext_resource type="Texture2D" uid="uid://cpr1yq6rbi0wa" path="res://assets/textures/Background/Villages.png" id="4_m8koh"]
+[ext_resource type="Texture2D" uid="uid://bf8k2xlgdsmbq" path="res://assets/textures/QUIT.png" id="10_1p88t"]
+
+[node name="Start" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mosop")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.866667, 0.74902, 0.643137, 1)
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+modulate = Color(0.913725, 1, 1, 1)
+layout_mode = 0
+offset_right = 1024.0
+offset_bottom = 1024.0
+scale = Vector2(1.12443, 0.296843)
+texture = ExtResource("1_s56vm")
+
+[node name="Sprite2D5" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(597, 137)
+texture = ExtResource("2_7bu2l")
+region_enabled = true
+region_rect = Rect2(0, 0, 2048, 256)
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(599, 182)
+texture = ExtResource("2_kkyd6")
+region_enabled = true
+region_rect = Rect2(0, 0, 2048, 256)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(477, 194)
+texture = ExtResource("3_mbepw")
+region_enabled = true
+region_rect = Rect2(0, 0, 2048, 256)
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(561, 255)
+scale = Vector2(0.245207, 0.245207)
+texture = ExtResource("4_m8koh")
+region_enabled = true
+region_rect = Rect2(0, 43.008, 6000, 972.16)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -43.0
+offset_top = 89.0
+offset_right = -43.0
+offset_bottom = 89.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.685469, 0.685469)
+texture = ExtResource("1_hgy8n")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(240, 430)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_4vwp8")
+region_enabled = true
+region_rect = Rect2(4477.98, 63.3831, 786.083, 1264.57)
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 595.0
+offset_top = 426.0
+offset_right = 1011.0
+offset_bottom = 558.0
+
+[node name="Start" type="Button" parent="Buttons"]
+layout_mode = 2
+icon = ExtResource("3_5871y")
+icon_alignment = 1
+
+[node name="Quit" type="Button" parent="Buttons"]
+layout_mode = 2
+icon = ExtResource("10_1p88t")
+icon_alignment = 1

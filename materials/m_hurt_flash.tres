@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bcwymkaakmskt"]
+
+[sub_resource type="Shader" id="Shader_cm07c"]
+code = "shader_type canvas_item;
+
+uniform vec4 tint_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float brightness : hint_range(-1, 1) = 0;
+uniform float tint_factor : hint_range(0, 1) = 0.0;
+
+mat4 brightnessMatrix(float _brightness)
+{
+	return mat4( 
+		vec4(1, 0, 0, 0),
+		vec4(0, 1, 0, 0),
+		vec4(0, 0, 1, 0),
+		vec4(_brightness, _brightness, _brightness, 1)
+	);
+}
+
+void fragment()
+{
+	vec4 c = texture(TEXTURE, UV);
+	vec4 c2 = c * tint_color;
+	COLOR = brightnessMatrix(brightness) * mix(c, c2, tint_factor);
+}
+"
+
+[resource]
+shader = SubResource("Shader_cm07c")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
+shader_parameter/brightness = 0.0
+shader_parameter/tint_factor = 0.0

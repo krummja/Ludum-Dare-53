@@ -1,0 +1,198 @@
+[gd_scene load_steps=15 format=3 uid="uid://bnkpsq7lxklg8"]
+
+[ext_resource type="Texture2D" uid="uid://c7m2opyq5wly6" path="res://assets/textures/Bandit/Bandit.png" id="1_0l6fo"]
+[ext_resource type="Script" path="res://actors/bandit/Bandit.cs" id="1_t2pse"]
+[ext_resource type="Script" path="res://actors/bandit/Aggro.cs" id="3_aux5f"]
+[ext_resource type="AudioStream" uid="uid://crpbg31pm40ui" path="res://assets/sounds/Hurt.mp3" id="4_nlt31"]
+[ext_resource type="AudioStream" uid="uid://j8dssjwhm2t2" path="res://assets/sounds/Dead.mp3" id="5_78lx3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ts0hn"]
+size = Vector2(60, 86)
+
+[sub_resource type="Animation" id="Animation_pdeh1"]
+resource_name = "attack"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.35, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [7, 7, 8, 8, 7]
+}
+
+[sub_resource type="Animation" id="Animation_1lchd"]
+resource_name = "idle"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [5, 6, 5]
+}
+
+[sub_resource type="Animation" id="Animation_fmh7g"]
+resource_name = "run"
+length = 1.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]
+}
+
+[sub_resource type="Animation" id="Animation_iyx78"]
+resource_name = "dead"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 1),
+"transitions": PackedFloat32Array(1, 15, 15),
+"update": 0,
+"values": [Vector2(-16, -72), Vector2(-16, -102), Vector2(-16, 1000)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fg0yw"]
+_data = {
+"attack": SubResource("Animation_pdeh1"),
+"dead": SubResource("Animation_iyx78"),
+"idle": SubResource("Animation_1lchd"),
+"run": SubResource("Animation_fmh7g")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kmnnq"]
+radius = 232.002
+
+[sub_resource type="Animation" id="Animation_5oylo"]
+resource_name = "hurt"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1e-05, 1),
+"update": 0,
+"values": [Vector2(-16, -72), Vector2(-16, -88), Vector2(-16, -72)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7vmoy"]
+_data = {
+"hurt": SubResource("Animation_5oylo")
+}
+
+[node name="Bandit" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_t2pse")
+AttackSpeedMod = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -43)
+shape = SubResource("RectangleShape2D_ts0hn")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-16, -72)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_0l6fo")
+hframes = 9
+frame = 7
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fg0yw")
+}
+
+[node name="Cooldown" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="HitDelay" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="AttackAnimation" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.6
+one_shot = true
+
+[node name="HurtFlash" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="DeathTimer" type="Timer" parent="."]
+
+[node name="Aggro" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("3_aux5f")
+
+[node name="Collision" type="CollisionShape2D" parent="Aggro"]
+position = Vector2(0, -95)
+shape = SubResource("CircleShape2D_kmnnq")
+debug_color = Color(0.937255, 0.0980392, 0.564706, 0.419608)
+
+[node name="SoundAttack" type="AudioStreamPlayer2D" parent="."]
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_nlt31")
+
+[node name="Dead" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_78lx3")
+
+[node name="HitShake" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7vmoy")
+}

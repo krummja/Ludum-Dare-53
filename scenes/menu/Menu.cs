@@ -8,6 +8,9 @@ public partial class Menu : Control
     [Export]
     public Button QuitButton;
 
+    [Export]
+    public Control StartScreen;
+
     private Window Root;
     private Node SceneRoot;
 
@@ -22,6 +25,13 @@ public partial class Menu : Control
         Hide();
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (GetTree().Paused && @event.IsActionPressed("ui_cancel")) {
+            Close();
+        }
+    }
+
     public void Close()
     {
         GetTree().Paused = false;
@@ -32,7 +42,6 @@ public partial class Menu : Control
     {
         Show();
         ResumeButton.GrabFocus();
-        GetTree().Paused = true;
     }
 
     public void OnResumePressed()
@@ -42,7 +51,31 @@ public partial class Menu : Control
 
     public void OnQuitPressed()
     {
-        Root.PropagateNotification((int) NotificationWMCloseRequest);
-        GetTree().Quit();
+        Main main = SceneRoot as Main;
+        Node currentScene;
+
+        Start start = StartScreen as Start;
+
+        switch (main.GameState) {
+
+            case GameState.StoryStart:
+                currentScene = SceneRoot.GetNode<Node>("StoryStart");
+                SceneRoot.RemoveChild(currentScene);
+
+                start.Open();
+                break;
+
+            case GameState.Game:
+                currentScene = SceneRoot.GetNode<Node>("World");
+                SceneRoot.RemoveChild(currentScene);
+
+                start.Open();
+                break;
+
+            default:
+                break;
+        }
+
+        Hide();
     }
 }

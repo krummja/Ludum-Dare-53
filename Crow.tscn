@@ -1,0 +1,154 @@
+[gd_scene load_steps=9 format=3 uid="uid://nwc8psayxwuf"]
+
+[ext_resource type="Texture2D" uid="uid://0a05ksn30g11" path="res://assets/textures/Bird/Crow.svg" id="2_w4nc0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hfkvs"]
+radius = 37.6563
+
+[sub_resource type="Animation" id="Animation_g84qi"]
+resource_name = "crow_fly"
+length = 4.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8, 4, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 5, 4, 3, 4, 6, 6, 5, 4, 3, 4, 6, 6, 5, 4, 3, 4, 6, 5, 4, 3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -6), Vector2(200, -600)]
+}
+
+[sub_resource type="Animation" id="Animation_ghfw7"]
+resource_name = "crow_idle"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [5, 6, 5]
+}
+
+[sub_resource type="Animation" id="Animation_lrbwy"]
+resource_name = "fly"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2, 1.9, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 6, 6, 6, 6]
+}
+
+[sub_resource type="Animation" id="Animation_cmm2g"]
+resource_name = "crow_fly_2"
+length = 4.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8, 4, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 5, 4, 3, 4, 6, 6, 5, 4, 3, 4, 6, 6, 5, 4, 3, 4, 6, 5, 4, 3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -6), Vector2(-200, -600)]
+}
+
+[sub_resource type="Animation" id="Animation_b0b5m"]
+resource_name = "crow_fly_3"
+length = 4.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8, 4, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 5, 4, 3, 4, 6, 6, 5, 4, 3, 4, 6, 6, 5, 4, 3, 4, 6, 5, 4, 3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -6), Vector2(0, -600)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2f36w"]
+_data = {
+"crow_fly": SubResource("Animation_g84qi"),
+"crow_fly_2": SubResource("Animation_cmm2g"),
+"crow_fly_3": SubResource("Animation_b0b5m"),
+"crow_idle": SubResource("Animation_ghfw7"),
+"fly": SubResource("Animation_lrbwy")
+}
+
+[node name="Crow" type="Area2D"]
+position = Vector2(0, -400)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_w4nc0")
+hframes = 3
+vframes = 3
+frame = 4
+region_rect = Rect2(268.996, 1322.96, 111.078, 86.1812)
+
+[node name="DamageCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hfkvs")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+speed_scale = 3.0
+libraries = {
+"": SubResource("AnimationLibrary_2f36w")
+}

@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjfdnorfdv6iu"]
+
+[ext_resource type="Script" path="res://pickups/Heart.cs" id="1_2hwje"]
+[ext_resource type="Texture2D" uid="uid://c6w25ybu0k4s" path="res://assets/textures/Heart_Full.svg" id="1_rkvgf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f1yri"]
+radius = 36.0139
+
+[sub_resource type="Animation" id="Animation_mpwr4"]
+resource_name = "hover"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(5, 5, 5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j4h0q"]
+_data = {
+"hover": SubResource("Animation_mpwr4")
+}
+
+[node name="Heart" type="Area2D"]
+script = ExtResource("1_2hwje")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_rkvgf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_f1yri")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j4h0q")
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true

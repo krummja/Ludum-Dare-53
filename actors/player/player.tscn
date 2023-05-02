@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://eu7fxkwqhawd"]
+[gd_scene load_steps=27 format=3 uid="uid://eu7fxkwqhawd"]
 
 [ext_resource type="Script" path="res://actors/player/Player.cs" id="1_qnn2g"]
 [ext_resource type="Texture2D" uid="uid://dgr5k1r50xdse" path="res://assets/textures/Crier/Crier.svg" id="2_vhmhd"]
@@ -7,9 +7,42 @@
 [ext_resource type="Texture2D" uid="uid://cw1pl316oylme" path="res://assets/textures/Crier/horn_attack_2.svg" id="4_u4ija"]
 [ext_resource type="Texture2D" uid="uid://carxee3mu2gh6" path="res://assets/textures/Crier/TOOT.svg" id="5_xt74b"]
 [ext_resource type="AudioStream" uid="uid://crmadf3sktvro" path="res://assets/sounds/horn_toot.mp3" id="6_nafpx"]
+[ext_resource type="AudioStream" uid="uid://crpbg31pm40ui" path="res://assets/sounds/Hurt.mp3" id="8_w7wjn"]
+[ext_resource type="PackedScene" uid="uid://bxe7swjupd35j" path="res://scenes/HUD.tscn" id="9_a4b0w"]
+[ext_resource type="AudioStream" uid="uid://j8dssjwhm2t2" path="res://assets/sounds/Dead.mp3" id="9_raigj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7xib7"]
 size = Vector2(53, 120)
+
+[sub_resource type="Animation" id="Animation_1ryt1"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_q7b6j"]
+resource_name = "dead"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [8, 8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 1),
+"transitions": PackedFloat32Array(1, 15, 15),
+"update": 0,
+"values": [Vector2(0, -14), Vector2(0, -44), Vector2(0, 1000)]
+}
 
 [sub_resource type="Animation" id="Animation_kt53j"]
 resource_name = "fall"
@@ -151,6 +184,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_2hb20"]
 resource_name = "run"
+length = 1.2
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -159,10 +193,10 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2]
+"values": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]
 }
 
 [sub_resource type="Animation" id="Animation_3rm6q"]
@@ -193,8 +227,27 @@ tracks/1/keys = {
 "values": [Vector2(38, -72), Vector2(38, -66), Vector2(38, -72), Vector2(38, -66), Vector2(38, -72), Vector2(38, -66), Vector2(38, -72), Vector2(38, -66), Vector2(38, -72), Vector2(38, -66), Vector2(38, -72)]
 }
 
+[sub_resource type="Animation" id="Animation_2eexs"]
+resource_name = "camera"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(0.164938, 0.0473662),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(500, -200)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vim5d"]
 _data = {
+"RESET": SubResource("Animation_1ryt1"),
+"camera": SubResource("Animation_2eexs"),
+"dead": SubResource("Animation_q7b6j"),
 "fall": SubResource("Animation_kt53j"),
 "fall_toot": SubResource("Animation_06rqh"),
 "idle": SubResource("Animation_sxtuu"),
@@ -205,12 +258,54 @@ _data = {
 "run_toot": SubResource("Animation_3rm6q")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hoca2"]
+radius = 110.041
+
+[sub_resource type="Animation" id="Animation_mkc40"]
+resource_name = "hurt"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1e-05, 1),
+"update": 0,
+"values": [Vector2(0, -14), Vector2(0, -30), Vector2(0, -14)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t8ndq"]
+_data = {
+"hurt": SubResource("Animation_mkc40")
+}
+
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(0, -39)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_qnn2g")
 Speed = Vector2(300, 600)
+IsPlayer = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -21)
+shape = SubResource("RectangleShape2D_7xib7")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -14)
@@ -222,13 +317,42 @@ vframes = 2
 frame = 4
 region_rect = Rect2(0, 0, 509, 252)
 
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vim5d")
+}
+
+[node name="TootAnimation" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.3
+one_shot = true
+
+[node name="HurtFlash" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="Camera" type="Camera2D" parent="."]
+process_callback = 0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="HitArea" type="Area2D" parent="."]
+position = Vector2(0, -21)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_hoca2")
+
 [node name="Horn" type="Marker2D" parent="."]
 position = Vector2(0, 39)
 script = ExtResource("3_wvtk3")
 
 [node name="HornSprite" type="Sprite2D" parent="Horn"]
 visible = false
-position = Vector2(40, -57)
+position = Vector2(40, -76)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("4_u4ija")
 offset = Vector2(10, 21)
@@ -245,22 +369,29 @@ one_shot = true
 [node name="Toot" type="AudioStreamPlayer2D" parent="Horn"]
 stream = ExtResource("6_nafpx")
 
-[node name="TootAnimation" type="Timer" parent="."]
-process_callback = 0
-wait_time = 0.2
-one_shot = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -21)
-shape = SubResource("RectangleShape2D_7xib7")
-
-[node name="Animation" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_vim5d")
-}
-
 [node name="Jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_v0dtl")
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_w7wjn")
+
+[node name="Dead" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_raigj")
+
+[node name="HitShake" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_t8ndq")
+}
+
+[node name="GameOver" type="Timer" parent="."]
 process_callback = 0
+one_shot = true
+
+[node name="MoveTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" node_paths=PackedStringArray("Player") instance=ExtResource("9_a4b0w")]
+Player = NodePath("../..")

@@ -4,11 +4,12 @@ using System;
 
 public struct PlayerRefs
 {
-    public Sprite2D Sprite;
     public Camera2D Camera;
     public AnimationPlayer Animation;
     public AudioStreamPlayer2D Jump;
     public Timer TootTimer;
+    public Timer GameOver;
+    public Timer MoveTimer;
 }
 
 
@@ -24,21 +25,41 @@ public partial class Player : Actor
 {
     public Vector2 Direction;
     public Horn Horn;
+    public CanvasLayer HUD;
 
     private PlayerRefs refs;
     private PlayerState state;
 
     private float lastDirection;
 
+    public Camera2D Camera
+    {
+        get => refs.Camera;
+    }
+
+    public Timer MoveTimer
+    {
+        get => refs.MoveTimer;
+    }
+
+    public AnimationPlayer Animation
+    {
+        get => refs.Animation;
+    }
+
     public override void _Ready()
     {
         // Set up references.
         refs = new PlayerRefs();
-        refs.Sprite = GetNode<Sprite2D>("Sprite");
+        Sprite = GetNode<Sprite2D>("Sprite");
         refs.Camera = GetNode<Camera2D>("Camera");
         refs.Animation = GetNode<AnimationPlayer>("Animation");
         refs.Jump = GetNode<AudioStreamPlayer2D>("Jump");
         refs.TootTimer = GetNode<Timer>("TootAnimation");
+        refs.GameOver = GetNode<Timer>("GameOver");
+        refs.MoveTimer = GetNode<Timer>("MoveTimer");
+
+        HUD = GetNode<CanvasLayer>("CanvasLayer");
 
         // Configure the camera.
         refs.Camera.CustomViewport = GetParent().GetParent();
@@ -57,6 +78,8 @@ public partial class Player : Actor
             IsTooting = false,
         };
 
+        refs.GameOver.Timeout += OnGameOver;
+
         // Call the Actor base to set Gravity.
         base._Ready();
     }
@@ -65,61 +88,78 @@ public partial class Player : Actor
     {
         string animation = "";
 
-        Direction = GetDirection();
-
-        if (Input.IsActionJustPressed("jump") && IsOnFloor()) {
-            refs.Jump.Play();
+        if (ScrollPieces == 3) {
+            GameWon();
         }
 
-        bool isJumpInterrupted = Input.IsActionJustReleased("jump") && Velocity.Y < 0.0;
-        Velocity = CalculateMoveVelocity(Velocity, Direction, Speed, isJumpInterrupted);
-        Velocity += new Vector2(0, Gravity * (float) delta);
+        TryKill();
 
-        MoveAndSlide();
+        if (!IsDead) {
+            Direction = GetDirection();
 
-        // Flip the sprite based on input direction.
-        float flipDirection;
-        if (Direction.X != 0f) {
-            if (Direction.X > 0f) {
-                refs.Sprite.FlipH = false;
-            } else if (Direction.X < 0f) {
-                refs.Sprite.FlipH = true;
+            if (Input.IsActionJustPressed("jump") && IsOnFloor()) {
+                refs.Jump.Play();
             }
 
-            flipDirection = Direction.X;
-            lastDirection = Direction.X;
-        } else {
-            flipDirection = lastDirection;
-        }
+            bool isJumpInterrupted = Input.IsActionJustReleased("jump") && Velocity.Y < 0.0;
+            Velocity = CalculateMoveVelocity(Velocity, Direction, Speed, isJumpInterrupted);
+            Velocity += new Vector2(0, Gravity * (float) delta);
 
-        state.IsTooting = false;
-        if (Input.IsActionJustPressed("attack")) {
-            state.IsTooting = Horn.Toot(flipDirection);
+            MoveAndSlide();
+
+            // Flip the sprite based on input direction.
+            float flipDirection;
+            if (Direction.X != 0f) {
+                if (Direction.X > 0f) {
+                    Sprite.FlipH = false;
+                } else if (Direction.X < 0f) {
+                    Sprite.FlipH = true;
+                }
+
+                flipDirection = Direction.X;
+                lastDirection = Direction.X;
+            } else {
+                flipDirection = lastDirection;
+            }
+
+            state.IsTooting = false;
+            if (Input.IsActionJustPressed("attack")) {
+                state.IsTooting = Horn.Toot(flipDirection);
+            }
         }
 
         // We set the animation above - if we get to this point and the animation
         // is not the currently loaded one, we need to set the new animation for
         // the next frame.
-
-        animation = GetNewAnimation(state.IsTooting);
-        if (animation != refs.Animation.CurrentAnimation && refs.TootTimer.IsStopped()) {
-            if (state.IsTooting) {
-                refs.TootTimer.Start();
+        if (IsActive) {
+            animation = GetNewAnimation(state.IsTooting);
+            if (animation != refs.Animation.CurrentAnimation && refs.TootTimer.IsStopped()) {
+                if (state.IsTooting) {
+                    refs.TootTimer.Start();
+                }
+                refs.Animation.Play(animation);
             }
-            refs.Animation.Play(animation);
+        }
+
+        if (IsDead && IsActive) {
+            IsActive = false;
+            refs.GameOver.Start();
         }
     }
 
     public Vector2 GetDirection()
     {
-        float xInput = (
-            Input.GetActionStrength("move_right") -
-            Input.GetActionStrength("move_left")
-        );
+        if (IsActive) {
+            float xInput = (
+                Input.GetActionStrength("move_right") -
+                Input.GetActionStrength("move_left")
+            );
 
-        float yInput = Input.IsActionJustPressed("jump") && IsOnFloor() ? -1 : 0;
+            float yInput = Input.IsActionJustPressed("jump") && IsOnFloor() ? -1 : 0;
+            return new Vector2(xInput, yInput);
+        }
 
-        return new Vector2(xInput, yInput);
+        return Vector2.Zero;
     }
 
     public Vector2 CalculateMoveVelocity(
@@ -159,6 +199,26 @@ public partial class Player : Actor
             animation_new += "_toot";
         }
 
+        if (IsDead) animation_new = "dead";
+
         return animation_new;
+    }
+
+    public void OnGameOver()
+    {
+        Window Root = GetTree().Root;
+        Node SceneRoot = Root.GetChild(Root.GetChildCount() - 1);
+
+        Main main = SceneRoot as Main;
+        main.GameOver();
+    }
+
+    public void GameWon()
+    {
+        Window Root = GetTree().Root;
+        Node SceneRoot = Root.GetChild(Root.GetChildCount() - 1);
+
+        Main main = SceneRoot as Main;
+        main.GameWon();
     }
 }

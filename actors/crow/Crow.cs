@@ -13,7 +13,6 @@ public partial class Crow : Area2D
     public override void _Ready()
     {
         Animation = GetNode<AnimationPlayer>("Animation");
-        Spawn = GetParent<Area2D>();
     }
 
     public override void _PhysicsProcess(double delta)

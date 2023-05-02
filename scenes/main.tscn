@@ -1,36 +1,32 @@
 [gd_scene load_steps=7 format=3 uid="uid://w8glntx0d0gm"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_koqpq"]
-[ext_resource type="PackedScene" uid="uid://b4vght3n53nod" path="res://scenes/game/World.tscn" id="1_xic4d"]
-[ext_resource type="Script" path="res://scenes/game/World.cs" id="2_xt57n"]
-[ext_resource type="PackedScene" uid="uid://eu7fxkwqhawd" path="res://actors/player/Player.tscn" id="3_vva37"]
+[ext_resource type="PackedScene" uid="uid://dg4mbv2w8syet" path="res://scenes/Start.tscn" id="5_eqkgu"]
+[ext_resource type="PackedScene" uid="uid://erk454qc2i00" path="res://scenes/TextOverlay.tscn" id="5_jyttv"]
 [ext_resource type="PackedScene" uid="uid://srfrdetem763" path="res://scenes/menu/Menu.tscn" id="5_mw80s"]
 [ext_resource type="AudioStream" uid="uid://8a0nmw1tixnv" path="res://assets/music/On Route Two.mp3" id="5_tfe3i"]
+[ext_resource type="PackedScene" uid="uid://bon30w8370bxx" path="res://scenes/GameOver.tscn" id="9_1tsnl"]
 
-[node name="Game" type="Node" node_paths=PackedStringArray("Menu")]
+[node name="Game" type="Node" node_paths=PackedStringArray("Menu", "GameOverScreen")]
 process_mode = 3
 script = ExtResource("1_koqpq")
 Menu = NodePath("InterfaceLayer/Menu")
-
-[node name="World" parent="." instance=ExtResource("1_xic4d")]
-process_mode = 1
-script = ExtResource("2_xt57n")
-
-[node name="Player" parent="World" instance=ExtResource("3_vva37")]
-position = Vector2(254, 535)
+GameOverScreen = NodePath("InterfaceLayer/GameOver")
 
 [node name="InterfaceLayer" type="CanvasLayer" parent="."]
 
-[node name="Title" type="TextureRect" parent="InterfaceLayer"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
+[node name="Start" parent="InterfaceLayer" instance=ExtResource("5_eqkgu")]
 
-[node name="Menu" parent="InterfaceLayer" instance=ExtResource("5_mw80s")]
+[node name="Menu" parent="InterfaceLayer" node_paths=PackedStringArray("StartScreen") instance=ExtResource("5_mw80s")]
+visible = false
+StartScreen = NodePath("../Start")
+
+[node name="GameOver" parent="InterfaceLayer" node_paths=PackedStringArray("StartScreen") instance=ExtResource("9_1tsnl")]
+visible = false
+StartScreen = NodePath("../Start")
+
+[node name="TextOverlay" parent="InterfaceLayer" instance=ExtResource("5_jyttv")]
+visible = false
 
 [node name="BGMusic" type="AudioStreamPlayer" parent="InterfaceLayer"]
 stream = ExtResource("5_tfe3i")

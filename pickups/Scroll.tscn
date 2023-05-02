@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6vcsesfc2yhs"]
+
+[ext_resource type="Script" path="res://pickups/Scroll.cs" id="1_u3lpi"]
+[ext_resource type="Texture2D" uid="uid://dwaphhsj22538" path="res://assets/textures/Scroll/Scroll_Piece.png" id="2_bvmqw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f1yri"]
+radius = 36.0139
+
+[sub_resource type="Animation" id="Animation_mpwr4"]
+resource_name = "hover"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(5, 5, 5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j4h0q"]
+_data = {
+"hover": SubResource("Animation_mpwr4")
+}
+
+[node name="Scroll" type="Area2D"]
+script = ExtResource("1_u3lpi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_bvmqw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_f1yri")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j4h0q")
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true

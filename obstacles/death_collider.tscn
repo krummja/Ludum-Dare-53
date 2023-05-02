@@ -1,10 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvup05bv8rjl"]
+[gd_scene load_steps=3 format=3 uid="uid://cvup05bv8rjl"]
+
+[ext_resource type="Script" path="res://scenes/game/PitDeath.cs" id="1_3j84p"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_8b0ok"]
 a = Vector2(50, 0)
 b = Vector2(-50, 0)
 
 [node name="DeathCollider" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_3j84p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("SegmentShape2D_8b0ok")
